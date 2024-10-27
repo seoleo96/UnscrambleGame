@@ -24,7 +24,19 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val viewModel = GameViewModel()
+        val viewModel = GameViewModel(object : GameRepository{
+            override fun next() {
+                TODO("Not yet implemented")
+            }
+
+            override fun originalWord(): String {
+                TODO("Not yet implemented")
+            }
+
+            override fun scrambledWord(): String {
+                TODO("Not yet implemented")
+            }
+        })
 
         binding.nextButton.setOnClickListener {
             val uiState: GameUiState = viewModel.next()
