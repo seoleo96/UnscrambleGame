@@ -106,8 +106,29 @@ class GameViewModelTest {
 }
 
 
-interface GameRepository
+private interface GameRepository {
+    fun scrambledWord(): String
+    fun originalWord(): String
+    fun next()
+    fun check(text: String): Boolean
+}
 
-class FakeGameRepository : GameRepository {
+private class FakeGameRepository : GameRepository {
+    private var index = 0
 
+    private val originalList = listOf("android", "develop")
+    private val scrambledList = originalList.map { it.reversed() }
+
+    override fun scrambledWord(): String = scrambledList[index]
+
+    override fun originalWord(): String = originalList[index]
+
+    override fun next() {
+        if (index == originalList.size) {
+            index = 0
+        }
+        ++index
+    }
+
+    override fun check(text: String): Boolean = text == originalList[index]
 }
