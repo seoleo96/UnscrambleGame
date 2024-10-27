@@ -15,7 +15,7 @@ class ScenarioTest {
     private lateinit var gamePage: GamePage
 
     fun setUp() {
-        gamePage = GamePage(scrumbledWord = "android")
+        gamePage = GamePage(scrambledWord = "android")
     }
 
     /**
@@ -24,7 +24,7 @@ class ScenarioTest {
     @Test
     fun skipTest() {
         gamePage.clickSkip()
-        gamePage = GamePage(scrumbledWord = "chrome")
+        gamePage = GamePage(scrambledWord = "chrome")
         gamePage.assertInitialState()
     }
 
@@ -34,10 +34,10 @@ class ScenarioTest {
     @Test
     fun insufficientInputTest() {
         gamePage.input("adnoi")
-        gamePage.asserInsufficientInputState()
+        gamePage.assertInsufficientInputState()
 
         gamePage.input("androidd")
-        gamePage.asserInsufficientInputState()
+        gamePage.assertInsufficientInputState()
     }
 
     /**
@@ -70,8 +70,8 @@ class ScenarioTest {
         gamePage.assertIncorrectState()
 
         gamePage.clickSkip()
-        gamePage = GamePage(scrumbledWord = "chrome")
-        gamePage.assertInitializedState()
+        gamePage = GamePage(scrambledWord = "chrome")
+        gamePage.assertInitialState()
     }
 
     /**
@@ -92,7 +92,7 @@ class ScenarioTest {
         gamePage.assertCorrectState()
 
         gamePage.clickNext()
-        gamePage = GamePage(scrumbledWord = "chrome")
-        gamePage.initialState()
+        gamePage = GamePage(scrambledWord = "chrome")
+        gamePage.assertInitialState()
     }
 }
