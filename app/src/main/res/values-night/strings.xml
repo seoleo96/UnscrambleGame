@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="check">Check</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="incorrect_message">Incorrect!</string>
 </resources>

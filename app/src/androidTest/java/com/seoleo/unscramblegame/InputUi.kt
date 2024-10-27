@@ -35,7 +35,7 @@ class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matc
     private val inputInteraction = onView(
         allOf(
             withId(R.id.inputEditText),
-            withParent(R.id.inputLayout),
+            withParent(withId(R.id.inputLayout)),
             withParent(isAssignableFrom(TextInputLayout::class.java)),
             isAssignableFrom(TextInputEditText::class.java)
         )
