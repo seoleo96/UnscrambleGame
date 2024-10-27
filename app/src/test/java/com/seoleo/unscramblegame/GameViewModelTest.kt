@@ -115,7 +115,6 @@ private interface GameRepository {
 
 private class FakeGameRepository : GameRepository {
     private var index = 0
-
     private val originalList = listOf("android", "develop")
     private val scrambledList = originalList.map { it.reversed() }
 
