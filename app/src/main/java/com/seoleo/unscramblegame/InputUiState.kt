@@ -2,8 +2,9 @@ package com.seoleo.unscramblegame
 
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.io.Serializable
 
-interface InputUiState {
+interface InputUiState : Serializable {
 
     fun update(inputLayout: TextInputLayout, inputEditText: TextInputEditText)
 
@@ -29,29 +30,39 @@ interface InputUiState {
         errorIsVisible = false,
         enabled = true,
         clearText = true
-    )
+    ) {
+        private fun readResolve(): Any = Initial
+    }
 
     object Sufficient : Abstract(
         errorIsVisible = false,
         enabled = true,
         clearText = false
-    )
+    ) {
+        private fun readResolve(): Any = Sufficient
+    }
 
     object Insufficient : Abstract(
         errorIsVisible = false,
         enabled = true,
         clearText = false
-    )
+    ) {
+        private fun readResolve(): Any = Insufficient
+    }
 
     object Correct : Abstract(
         errorIsVisible = false,
         enabled = false,
         clearText = false
-    )
+    ) {
+        private fun readResolve(): Any = Correct
+    }
 
     object Incorrect : Abstract(
         errorIsVisible = true,
         enabled = true,
         clearText = false
-    )
+    ) {
+        private fun readResolve(): Any = Incorrect
+    }
 }

@@ -2,8 +2,9 @@ package com.seoleo.unscramblegame
 
 import android.view.View
 import com.seoleo.unscramblegame.databinding.ActivityMainBinding
+import java.io.Serializable
 
-interface GameUiState {
+interface GameUiState : Serializable {
 
     fun update(binding: ActivityMainBinding)
 
