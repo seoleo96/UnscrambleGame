@@ -28,6 +28,10 @@ class ScenarioTest {
         gamePage.clickSkip()
         gamePage = GamePage(scrambledWord = "poleved")
         gamePage.assertInitialState()
+
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertInitialState()
+
     }
 
     /**
@@ -46,6 +50,9 @@ class ScenarioTest {
     fun sufficientInputTest() {
         gamePage.input("androit")
         gamePage.assertSufficientInputState()
+
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertInsufficientInputState()
     }
 
     /**
@@ -56,6 +63,9 @@ class ScenarioTest {
         gamePage.input("androit")
         gamePage.clickCheck()
         gamePage.assertIncorrectState()
+
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertSufficientInputState()
     }
 
     /**
@@ -68,9 +78,15 @@ class ScenarioTest {
         gamePage.clickCheck()
         gamePage.assertIncorrectState()
 
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertSufficientInputState()
+
         gamePage.clickSkip()
         gamePage = GamePage(scrambledWord = "poleved")
         gamePage.assertInitialState()
+
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertSufficientInputState()
     }
 
     /**
@@ -83,15 +99,27 @@ class ScenarioTest {
         gamePage.clickCheck()
         gamePage.assertIncorrectState()
 
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertSufficientInputState()
+
         gamePage.removeInputLastLetter()
         gamePage.assertInsufficientInputState()
+
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertSufficientInputState()
 
         gamePage.input("d")
         gamePage.clickCheck()
         gamePage.assertCorrectState()
 
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertSufficientInputState()
+
         gamePage.clickNext()
         gamePage = GamePage(scrambledWord = "poleved")
         gamePage.assertInitialState()
+
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertSufficientInputState()
     }
 }
