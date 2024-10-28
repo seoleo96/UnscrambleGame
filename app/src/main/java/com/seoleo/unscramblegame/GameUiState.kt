@@ -1,39 +1,63 @@
 package com.seoleo.unscramblegame
 
+import android.view.View
 import com.seoleo.unscramblegame.databinding.ActivityMainBinding
 
 interface GameUiState {
 
     fun update(binding: ActivityMainBinding)
 
-    data class Initial(val scrambledWord: String) : GameUiState {
+    abstract class Abstract(
+        private val scrambledWord: String,
+        private val inputUiState: InputUiState,
+        private val checkUiState: CheckUiState,
+        private val nextButtonVisibility: Int = View.GONE,
+        private val skipButtonVisibility: Int = View.VISIBLE,
+    ) : GameUiState {
+
         override fun update(binding: ActivityMainBinding) {
-            TODO("Not yet implemented")
+            with(binding) {
+                scrambledWordTextView.text = scrambledWord
+                inputUiState.update(inputLayout, inputEditText)
+                checkUiState.update(checkButton)
+                nextButton.visibility = nextButtonVisibility
+                skipButton.visibility = skipButtonVisibility
+            }
         }
     }
 
-    data class Correct(val scrambledWord: String) : GameUiState {
-        override fun update(binding: ActivityMainBinding) {
-            TODO("Not yet implemented")
-        }
-    }
+    data class Initial(
+        private val scrambledWord: String,
+    ) : Abstract(
+        scrambledWord = scrambledWord,
+        inputUiState = InputUiState.Initial,
+        checkUiState = CheckUiState.Disabled
+    )
 
-    data class Incorrect(val scrambledWord: String) : GameUiState {
-        override fun update(binding: ActivityMainBinding) {
-            TODO("Not yet implemented")
-        }
-    }
+    data class Correct(val scrambledWord: String) : Abstract(
+        scrambledWord = scrambledWord,
+        inputUiState = InputUiState.Correct,
+        checkUiState = CheckUiState.Invisible,
+        skipButtonVisibility = View.GONE,
+        nextButtonVisibility = View.VISIBLE
+    )
 
-    data class Sufficient(val scrambledWord: String) : GameUiState {
-        override fun update(binding: ActivityMainBinding) {
-            TODO("Not yet implemented")
-        }
-    }
+    data class Incorrect(val scrambledWord: String) : Abstract(
+        scrambledWord = scrambledWord,
+        inputUiState = InputUiState.Incorrect,
+        checkUiState = CheckUiState.Disabled
+    )
 
-    data class Insufficient(val scrambledWord: String) : GameUiState {
-        override fun update(binding: ActivityMainBinding) {
-            TODO("Not yet implemented")
-        }
-    }
+    data class Sufficient(val scrambledWord: String) : Abstract(
+        scrambledWord = scrambledWord,
+        inputUiState = InputUiState.Sufficient,
+        checkUiState = CheckUiState.Enabled
+    )
+
+    data class Insufficient(val scrambledWord: String) : Abstract(
+        scrambledWord = scrambledWord,
+        inputUiState = InputUiState.Insufficient,
+        checkUiState = CheckUiState.Disabled
+    )
 }
 
