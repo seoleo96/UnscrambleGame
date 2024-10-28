@@ -86,8 +86,8 @@ class GamePage(scrambledWord: String) {
 
     fun assertCorrectState() {
         scrambleWordUi.assertWordVisible()
-        checkUi.assertNotEnabled()
-        skipUi.assertNotEnabled()
+        checkUi.assertNotVisible()
+        skipUi.assertNotVisible()
         nextUi.assertVisible()
         inputUi.assertCorrectState()
     }

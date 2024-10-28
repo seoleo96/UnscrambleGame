@@ -7,6 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
@@ -22,7 +23,7 @@ class ScrambleWordUi(
         allOf(
             containerIdMatcher,
             containerClassTypeMatcher,
-            withId(R.id.scrambleWordTextView),
+            withId(R.id.scrambledWordTextView),
             withText(scrambledWord),
             isAssignableFrom(TextView::class.java)
         )

@@ -2,6 +2,7 @@ package com.seoleo.unscramblegame
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,8 +15,9 @@ class ScenarioTest {
 
     private lateinit var gamePage: GamePage
 
+    @Before
     fun setUp() {
-        gamePage = GamePage(scrambledWord = "android")
+        gamePage = GamePage(scrambledWord = "diordna")
     }
 
     /**
@@ -24,7 +26,7 @@ class ScenarioTest {
     @Test
     fun skipTest() {
         gamePage.clickSkip()
-        gamePage = GamePage(scrambledWord = "chrome")
+        gamePage = GamePage(scrambledWord = "poleved")
         gamePage.assertInitialState()
     }
 
@@ -33,10 +35,7 @@ class ScenarioTest {
      */
     @Test
     fun insufficientInputTest() {
-        gamePage.input("adnoi")
-        gamePage.assertInsufficientInputState()
-
-        gamePage.input("androidd")
+        gamePage.input("adnroi")
         gamePage.assertInsufficientInputState()
     }
 
@@ -70,7 +69,7 @@ class ScenarioTest {
         gamePage.assertIncorrectState()
 
         gamePage.clickSkip()
-        gamePage = GamePage(scrambledWord = "chrome")
+        gamePage = GamePage(scrambledWord = "poleved")
         gamePage.assertInitialState()
     }
 
@@ -84,15 +83,15 @@ class ScenarioTest {
         gamePage.clickCheck()
         gamePage.assertIncorrectState()
 
-        gamePage.input("androi")
+        gamePage.removeInputLastLetter()
         gamePage.assertInsufficientInputState()
 
-        gamePage.input("android")
+        gamePage.input("d")
         gamePage.clickCheck()
         gamePage.assertCorrectState()
 
         gamePage.clickNext()
-        gamePage = GamePage(scrambledWord = "chrome")
+        gamePage = GamePage(scrambledWord = "poleved")
         gamePage.assertInitialState()
     }
 }

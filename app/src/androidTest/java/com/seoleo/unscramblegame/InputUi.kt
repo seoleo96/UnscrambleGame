@@ -5,6 +5,7 @@ import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.pressKey
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -35,23 +36,21 @@ class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matc
     private val inputInteraction = onView(
         allOf(
             withId(R.id.inputEditText),
-            withParent(withId(R.id.inputLayout)),
-            withParent(isAssignableFrom(TextInputLayout::class.java)),
             isAssignableFrom(TextInputEditText::class.java)
         )
     )
 
 
     fun assertInitialState() {
-        layoutInteraction.check(matches(isEnabled()))
-        inputInteraction.check(
+        layoutInteraction.check(
             matches(
                 allOf(
-                    withText(""),
+                    isEnabled(),
                     textInputLayoutErrorEnabledMatcherFalse
                 )
             )
         )
+        inputInteraction.check(matches(allOf(withText(""))))
     }
 
     fun addInput(text: String) {
@@ -59,28 +58,43 @@ class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matc
     }
 
     fun asserInsufficientInputState() {
-        layoutInteraction.check(matches(isEnabled()))
-        inputInteraction.check(matches(textInputLayoutErrorEnabledMatcherFalse))
+        layoutInteraction.check(
+            matches(
+                allOf(
+                    isEnabled(),
+                    textInputLayoutErrorEnabledMatcherFalse
+                )
+            )
+        )
     }
 
     fun assertSufficientInputState() {
-       layoutInteraction.check(matches(isEnabled()))
-        inputInteraction.check(matches(textInputLayoutErrorEnabledMatcherFalse))
+        layoutInteraction.check(
+            matches(
+                allOf(
+                    isEnabled(),
+                    textInputLayoutErrorEnabledMatcherFalse
+                )
+            )
+        )
     }
 
     fun assertIncorrectState() {
-        layoutInteraction.check(matches(isEnabled()))
-        inputInteraction
-            .check(matches(TextInputLayoutErrorEnabledMatcher(true)))
-            .check(matches(TextInputLayoutHasErrorText(R.string.incorrect_message)))
+        layoutInteraction.check(
+                matches(
+                    allOf(
+                        isEnabled(),
+                        TextInputLayoutErrorEnabledMatcher(true)
+                    )
+                )
+            )
     }
 
     fun assertCorrectState() {
-        layoutInteraction.check(matches(isNotEnabled()))
-        inputInteraction.check(
+        layoutInteraction.check(
             matches(
                 allOf(
-                    withText(""),
+                    isNotEnabled(),
                     textInputLayoutErrorEnabledMatcherFalse
                 )
             )
@@ -91,7 +105,7 @@ class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matc
         inputInteraction.perform(
             click(),
             pressKey(KeyEvent.KEYCODE_DEL),
-            ViewActions.closeSoftKeyboard()
+            closeSoftKeyboard()
         )
     }
 

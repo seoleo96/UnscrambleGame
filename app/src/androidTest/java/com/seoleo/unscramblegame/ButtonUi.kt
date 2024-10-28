@@ -9,6 +9,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.not
 
 class ButtonUi(
     @StringRes text: Int,
@@ -36,7 +37,7 @@ class ButtonUi(
     }
 
     fun assertNotVisible() {
-        interaction.check(doesNotExist())
+        interaction.check(matches(not(isDisplayed())))
     }
 
     fun assertVisible() {
