@@ -2,8 +2,9 @@ package com.seoleo.unscramblegame
 
 import android.view.View
 import android.widget.Button
+import java.io.Serializable
 
-interface CheckUiState {
+interface CheckUiState : Serializable {
     fun update(checkButton: Button)
 
     abstract class Abstract(
@@ -19,7 +20,15 @@ interface CheckUiState {
         }
     }
 
-    object Disabled : Abstract(View.VISIBLE, false)
-    object Enabled : Abstract(View.VISIBLE, true)
-    object Invisible : Abstract(View.GONE, false)
+    object Disabled : Abstract(View.VISIBLE, false) {
+        private fun readResolve(): Any = Disabled
+    }
+
+    object Enabled : Abstract(View.VISIBLE, true) {
+        private fun readResolve(): Any = Enabled
+    }
+
+    object Invisible : Abstract(View.GONE, false) {
+        private fun readResolve(): Any = Invisible
+    }
 }

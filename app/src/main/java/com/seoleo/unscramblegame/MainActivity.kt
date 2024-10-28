@@ -1,5 +1,6 @@
 package com.seoleo.unscramblegame
 
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,7 @@ import com.seoleo.unscramblegame.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var uiState: GameUiState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,26 +29,49 @@ class MainActivity : AppCompatActivity() {
         val viewModel = GameViewModel(GameRepositoryImpl(ShuffleStrategyImpl()))
 
         binding.nextButton.setOnClickListener {
-            val uiState: GameUiState = viewModel.next()
-            uiState.update(binding = binding)
+            uiState = viewModel.next()
+            updateUiState()
         }
 
         binding.skipButton.setOnClickListener {
-            val uiState: GameUiState = viewModel.skip()
-            uiState.update(binding = binding)
+            uiState = viewModel.skip()
+            updateUiState()
         }
 
         binding.checkButton.setOnClickListener {
-            val uiState: GameUiState = viewModel.check(text = binding.inputEditText.text.toString())
-            uiState.update(binding = binding)
+            uiState = viewModel.check(text = binding.inputEditText.text.toString())
+            updateUiState()
         }
 
         binding.inputEditText.addTextChangedListener { text: Editable? ->
-            val uiState: GameUiState = viewModel.handleUserInput(text = text.toString())
-            uiState.update(binding = binding)
+            uiState = viewModel.handleUserInput(text = text.toString())
+            updateUiState()
         }
 
-        val uiState = viewModel.init()
+        uiState = viewModel.init()
+        updateUiState()
+    }
+
+    private fun updateUiState() {
         uiState.update(binding = binding)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable(SAVE_UI_STATE, uiState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        uiState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            savedInstanceState.getSerializable(SAVE_UI_STATE, GameUiState::class.java)!!
+        } else {
+            savedInstanceState.getSerializable(SAVE_UI_STATE) as GameUiState
+        }
+    }
+
+    companion object {
+        private const val SAVE_UI_STATE = "save_ui_state"
     }
 }
